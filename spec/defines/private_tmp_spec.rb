@@ -4,14 +4,12 @@ describe 'bamboo_agent::private_tmp' do
 
   let :title do '/footmp' end
 
-  let :pre_condition do <<PUPPET
-class bamboo_agent {
-  $user_name = 'jdoe'
-  $user_group = 'jdoe'
-}
-include bamboo_agent
-PUPPET
-  end
+  let(:params) do
+    {
+      :user   => 'jdoe', 
+      :group  => 'jdoe', 
+    }
+  end  
 
   it do
     should contain_file('/footmp').with({

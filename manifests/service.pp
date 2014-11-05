@@ -5,11 +5,11 @@
 define bamboo_agent::service(
   $home,
   $id = $title,
+  $user,
 ){
 
   $service = "bamboo-agent${id}"
   $script  = "${home}/bin/bamboo-agent.sh"
-  $user    = $::bamboo_agent::user_name
 
   file { "/etc/init.d/${service}":
     ensure  => file,

@@ -2,18 +2,11 @@ require 'spec_helper'
 
 describe 'bamboo_agent::service' do
 
-  let(:pre_condition) { <<PUPPET
-class bamboo_agent {
-  $user_name = 'jdoe'
-}
-include bamboo_agent
-PUPPET
-}
-
   let(:title) { 'foo' }
   let(:params) do
     {
-      :home => '/tmp',
+      :home   => '/tmp',
+      :user   => 'jdoe', 
     }
   end
 

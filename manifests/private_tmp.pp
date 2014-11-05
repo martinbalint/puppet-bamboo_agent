@@ -1,13 +1,15 @@
 # Logic for setting up a private tmp directory for the agent
 # *** This type should be considered private to this module ***
 define bamboo_agent::private_tmp(
-  $path = $title,
+  $path       = $title,
+  $user,
+  $group,
 ){
 
   file { $path:
     ensure => directory,
-    owner  => $bamboo_agent::user_name,
-    group  => $bamboo_agent::user_group,
+    owner  => $user,
+    group  => $group,
     mode   => '0755', # Only used by Bamboo user, no need for sticky
   }
 

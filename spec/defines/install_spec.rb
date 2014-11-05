@@ -3,8 +3,6 @@ require 'spec_helper'
 describe 'bamboo_agent::install' do
   let(:pre_condition) { <<PUPPET
 class bamboo_agent {
-  $user_name = 'jdoe'
-  $user_group = 'jdoe'
   $java_command = 'j 2'
   $installer_jar = '/tmp/b. .jar'
   $final_server_url = 'http://b.com'
@@ -14,7 +12,12 @@ PUPPET
 }
 
   let(:title) { "install-${id}" }
-  let(:params) {{ :home => '/b1home', :id => '2' }}
+  let(:params) {{ 
+    :home   => '/b1home', 
+    :id     => '2',  
+    :user   => 'jdoe',
+    :group  => 'jdoe',
+  }}
 
   it do
     should contain_exec('install-agent-2').with({

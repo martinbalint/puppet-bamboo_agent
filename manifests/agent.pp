@@ -26,6 +26,13 @@
 # [refresh_service] Whether to restart the agent after a change to
 #   bamboo-capabilities.properties or wrapper.conf.
 #
+# [user] The username to own agent-specific folders
+#   By default, it's the same as configured in the bamboo_agent
+#   It's not managed by this module, it needs to be previously created
+#
+# [group] The group to own agent-specific folders
+#   By default, it's the same as configured in the bamboo_agent, in the user_options
+#
 # === Examples
 #
 # Suppose an agent on the node "somehost" is defined with the
@@ -52,6 +59,8 @@ define bamboo_agent::agent(
   $expand_id_macros        = true,
   $private_tmp_dir         = false,
   $refresh_service         = false,
+  $user                    = $bamboo_agent::user_name,
+  $group                   = $bamboo_agent::user_group,
 ){
 
   validate_hash($wrapper_conf_properties)
@@ -63,14 +72,16 @@ define bamboo_agent::agent(
 
   file { $home:
     ensure => directory,
-    owner  => $bamboo_agent::user_name,
-    group  => $bamboo_agent::user_group,
+    owner  => $user,
+    group  => $group,
     mode   => '0755',
   }
   ->
   bamboo_agent::install { "install-agent-${id}":
     id     => $id,
     home   => $home,
+    user   => $user,
+    group  => $group,
   }
 
   $install = Bamboo_Agent::Install["install-agent-${id}"]
@@ -78,6 +89,7 @@ define bamboo_agent::agent(
   bamboo_agent::service { $id:
     home    => $home,
     require => $install,
+    user    => $user,
   }
 
   if $manage_capabilities {
@@ -88,6 +100,8 @@ define bamboo_agent::agent(
       expand_id_macros => $expand_id_macros,
       before           => Bamboo_Agent::Service[$id],
       require          => $install,
+      user             => $user,
+      group            => $group,
     }
 
     if $refresh_service {
@@ -101,7 +115,11 @@ define bamboo_agent::agent(
       'set.TMP'                   => $agent_tmp,
       'wrapper.java.additional.3' => "-Djava.io.tmpdir=${agent_tmp}",
     }
-    bamboo_agent::private_tmp { $agent_tmp: require => $install }
+    bamboo_agent::private_tmp { 
+      $agent_tmp: require => $install, 
+                  user    => $user,
+                  group   => $group,
+    }
   }else{
     $tmp_dir_props = {}
   }
@@ -112,6 +130,8 @@ define bamboo_agent::agent(
                         $wrapper_conf_properties),
     before     => Bamboo_Agent::Service[$id],
     require    => $install,
+    user       => $user,
+    group      => $group,
   }
 
   if $refresh_service {

@@ -4,7 +4,7 @@ describe 'bamboo_agent::agent' do
   let (:pre_condition) { <<PUPPET
 class bamboo_agent {
   $user_name = 'jdoe'
-  $user_group = 'users'
+  $user_group = 'users' 
   $install_dir = '/b'
   $default_capabilities = { 'a' => 'foo' }
 }
@@ -122,6 +122,35 @@ PUPPET
     it do
       should contain_bamboo_agent__wrapper_conf('1').that_notifies('Bamboo_Agent::Service[1]')
       should contain_bamboo_agent__capabilities('1').that_notifies('Bamboo_Agent::Service[1]')
+    end
+  end
+
+  context 'with different user' do
+    let (:title) do '1' end
+
+    let :params do {
+      :user  => 'other_user',
+      :group => 'other_group',
+    }
+    end
+
+    it do
+      should contain_file('/b/agent1-home').with({
+        :ensure => 'directory',
+        :owner  => 'other_user',
+        :group  => 'other_group',
+        :mode   => '0755',
+      })
+
+      should contain_bamboo_agent__install('install-agent-1').with({
+        :id => '1',
+        :home => '/b/agent1-home',
+      })
+      should contain_bamboo_agent__service('1').with_home('/b/agent1-home')
+      should contain_bamboo_agent__wrapper_conf('1').with({
+        :home => '/b/agent1-home',
+        :properties => {},
+      })
     end
   end
 end

@@ -3,6 +3,8 @@
 define bamboo_agent::install(
   $home,
   $id = $title,
+  $user,
+  $group,
 ){
   $java         = shellquote($bamboo_agent::java_command)
   $jar          = shellquote($bamboo_agent::installer_jar)
@@ -14,8 +16,8 @@ define bamboo_agent::install(
 
   exec { "install-agent-${id}":
     path      => ['/bin','/usr/bin','/usr/local/bin'],
-    user      => $bamboo_agent::user_name,
-    group     => $bamboo_agent::user_group,
+    user      => $user,
+    group     => $group,
     creates   => "${home}/bin/bamboo-agent.sh",
     command   => $install_command,
     require   => File[$bamboo_agent::installer_jar],

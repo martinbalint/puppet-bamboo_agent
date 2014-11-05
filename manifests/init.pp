@@ -86,7 +86,7 @@ class bamboo_agent(
   $server_url      = 'UNSET',
 
   $agents         = [1],
-  $agent_defaults = {},
+  
   $install_dir    = '/usr/local/bamboo',
 
   $user_name      = 'bamboo',
@@ -94,6 +94,8 @@ class bamboo_agent(
   $user_options   = {
     'shell' => '/bin/bash',
   },
+
+  $agent_defaults = {},
 
   $java_classname = 'java',
   $java_command   = 'java',

@@ -99,8 +99,7 @@ describe 'bamboo_agent' do
       should contain_bamboo_agent__agent('4').with(expected)
     end
   end
-
-
+  
   context 'supply java classname' do
     let(:pre_condition) do <<PUPPET
 class myjava {

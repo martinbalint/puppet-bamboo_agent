@@ -1,8 +1,11 @@
 require 'spec_helper'
 
 describe 'bamboo_agent::capabilities' do
+
   before :each do
     home = '/foo'
+    user = 'jdoe'
+    group = 'jdoe'
     test_capabilities = {
       'a' => 1,
       'b' => '2',
@@ -13,13 +16,15 @@ describe 'bamboo_agent::capabilities' do
       :home         => home,
       :capabilities => test_capabilities,
       :expand_id_macros => true,
+      :user         => user,
+      :group        => group,
     }
     @file  = "#{home}/bin/bamboo-capabilities.properties"
     @attributes = Proc.new do |idvalue|
       {
         :ensure  => 'file',
-        :owner   => 'bamboo',
-        :group   => 'bamboo',
+        :owner   => 'jdoe',
+        :group   => 'jdoe',
         :mode    => '0644',
         :content => <<CONTENT
 # This file is managed by Puppet! Any manual changes will probably be

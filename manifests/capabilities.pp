@@ -5,6 +5,8 @@ define bamboo_agent::capabilities(
   $id               = $title,
   $capabilities     = {},
   $expand_id_macros = false,
+  $user,
+  $group,
 ){
 
   $final_capabilities = $expand_id_macros ? {
@@ -15,8 +17,8 @@ define bamboo_agent::capabilities(
   file { "${home}/bin/bamboo-capabilities.properties":
     ensure  => file,
     mode    => '0644',
-    owner   => 'bamboo',
-    group   => 'bamboo',
+    owner   => $user,
+    group   => $group,
     content => template('bamboo_agent/bamboo-capabilities.properties.erb')
   }
 }

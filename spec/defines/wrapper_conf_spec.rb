@@ -1,20 +1,14 @@
 require 'spec_helper'
 
 describe 'bamboo_agent::wrapper_conf' do
-  let(:pre_condition) { <<PUPPET
-class bamboo_agent {
-  $user_name = 'z'
-  $user_group = 'z'
-}
-include bamboo_agent
-PUPPET
-  }
 
   let(:title) { 'foo' }
   let(:params) do
     {
       :home => '/u',
-      :properties => { 'a' => '1' }
+      :properties => { 'a' => '1' }, 
+      :user => 'z', 
+      :group => 'z', 
     }
   end
 
