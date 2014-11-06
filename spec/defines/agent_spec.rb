@@ -4,7 +4,7 @@ describe 'bamboo_agent::agent' do
   let (:pre_condition) { <<PUPPET
 class bamboo_agent {
   $user_name = 'jdoe'
-  $user_group = 'users' 
+  $user_group = 'users'
   $install_dir = '/b'
   $default_capabilities = { 'a' => 'foo' }
 }
@@ -129,8 +129,8 @@ PUPPET
     let (:title) do '1' end
 
     let :params do {
-      :user  => 'other_user',
-      :group => 'other_group',
+      :user_name  => 'other_user',
+      :group      => 'other_group',
     }
     end
 

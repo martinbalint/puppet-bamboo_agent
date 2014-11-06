@@ -26,11 +26,11 @@
 # [refresh_service] Whether to restart the agent after a change to
 #   bamboo-capabilities.properties or wrapper.conf.
 #
-# [user] The username to own agent-specific folders
+# [user_name] The username to be the owner of agent-specific folders
 #   By default, it's the same as configured in the bamboo_agent
-#   It's not managed by this module, it needs to be previously created
+#   This user is not managed by this module, so it needs to be previously created
 #
-# [group] The group to own agent-specific folders
+# [group] The group to be the owner of agent-specific folders
 #   By default, it's the same as configured in the bamboo_agent, in the user_options
 #
 # === Examples
@@ -59,7 +59,7 @@ define bamboo_agent::agent(
   $expand_id_macros        = true,
   $private_tmp_dir         = false,
   $refresh_service         = false,
-  $user                    = $bamboo_agent::user_name,
+  $user_name               = $bamboo_agent::user_name,
   $group                   = $bamboo_agent::user_group,
 ){
 
@@ -72,7 +72,7 @@ define bamboo_agent::agent(
 
   file { $home:
     ensure => directory,
-    owner  => $user,
+    owner  => $user_name,
     group  => $group,
     mode   => '0755',
   }
@@ -80,7 +80,7 @@ define bamboo_agent::agent(
   bamboo_agent::install { "install-agent-${id}":
     id     => $id,
     home   => $home,
-    user   => $user,
+    user   => $user_name,
     group  => $group,
   }
 
@@ -89,7 +89,7 @@ define bamboo_agent::agent(
   bamboo_agent::service { $id:
     home    => $home,
     require => $install,
-    user    => $user,
+    user    => $user_name,
   }
 
   if $manage_capabilities {
@@ -100,7 +100,7 @@ define bamboo_agent::agent(
       expand_id_macros => $expand_id_macros,
       before           => Bamboo_Agent::Service[$id],
       require          => $install,
-      user             => $user,
+      user             => $user_name,
       group            => $group,
     }
 
@@ -117,7 +117,7 @@ define bamboo_agent::agent(
     }
     bamboo_agent::private_tmp { 
       $agent_tmp: require => $install, 
-                  user    => $user,
+                  user    => $user_name,
                   group   => $group,
     }
   }else{
@@ -130,7 +130,7 @@ define bamboo_agent::agent(
                         $wrapper_conf_properties),
     before     => Bamboo_Agent::Service[$id],
     require    => $install,
-    user       => $user,
+    user       => $user_name,
     group      => $group,
   }
 
