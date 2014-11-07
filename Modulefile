@@ -1,7 +1,3 @@
-name    'kayak-bamboo_agent'
-version '0.0.8'
-source  'git://github.com/kayakco/puppet-bamboo_agent.git'
-author  'kayak'
 license 'Apache License, Version 2.0'
 summary 'Advanced management of Atlassian Bamboo agents'
 description 'Installation and fine-grained control of Bamboo agents on a node, including agent capabilities and properties in wrapper.conf'
