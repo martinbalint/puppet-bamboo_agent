@@ -18,9 +18,9 @@ describe 'bamboo_agent::private_tmp' do
       :group  => 'jdoe',
       :mode   => '0755',
     })
-    should contain_package('tmpwatch')
+    should contain_package('tmpreaper')
     should contain_cron('/footmp-tmp-cleanup').with({
-      :command => '/usr/sbin/tmpwatch 10d /footmp',
+      :command => '/usr/sbin/tmpreaper 1d /footmp -a -T 120',
       :minute  => 15,
     })
   end
