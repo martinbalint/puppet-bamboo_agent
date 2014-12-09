@@ -21,7 +21,8 @@ describe 'bamboo_agent::private_tmp' do
     should contain_package('tmpreaper')
     should contain_cron('/footmp-tmp-cleanup').with({
       :command => '/usr/sbin/tmpreaper 1d /footmp -a -T 120',
-      :minute  => 15,
+      :minute  => 0,
+      :hour    => 4,
     })
   end
 end
