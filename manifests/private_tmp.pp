@@ -12,16 +12,23 @@ define bamboo_agent::private_tmp(
     group  => $group,
     mode   => '0755', # Only used by Bamboo user, no need for sticky
   }
-
-  unless defined(Package['tmpreaper']){
-    package { 'tmpreaper': ensure => installed }
+  
+	$package_name = $osfamily ? {
+	    'Ubuntu' => 'tmpreaper',
+	    default  => 'tmpwatch',
+	}
+  
+  unless defined(Package[$package_name]){
+    package { $package_name: 
+      ensure => installed 
+    }
   }
 
   cron { "${path}-tmp-cleanup":
     minute  => 0,
     hour    => 4,
-    command => "/usr/sbin/tmpreaper 1d ${path} -a -T 120",
-    require => [Package['tmpreaper'],
+    command => "/usr/sbin/${package_name} 1d ${path} -a -T 120",
+    require => [Package[$package_name],
                 File[$path]],
   }
 }
