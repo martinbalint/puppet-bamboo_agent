@@ -1,7 +1,8 @@
 bamboo_agent
 ============
 
-[![Build Status](https://travis-ci.org/kayakco/puppet-bamboo_agent.png)](https://travis-ci.org/kayakco/puppet-bamboo_agent)
+Fork of [kayakco/bamboo_agent] module. Supports now ubuntu14 and multiple 
+bamboo agents on different users on the same machine. 
 
 A Puppet module for managing Bamboo agents.
 
