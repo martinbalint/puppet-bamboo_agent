@@ -3,25 +3,31 @@
   "dependencies": [
     {
       "name": "puppetlabs/stdlib",
-      "version_requirement": "\u003e\u003d 3.2.0"
+      "version_requirement": ">= 3.2.0"
     },
     {
       "name": "puppetlabs/java",
-      "version_requirement": "\u003e\u003d 0.2.0"
+      "version_requirement": ">= 0.2.0"
     },
     {
       "name": "kayak/r9util",
-      "version_requirement": "\u003e\u003d 0.0.3"
+      "version_requirement": ">= 0.0.3"
     }
   ],
   "description": "Fork of kaykak/bamboo_agent. Installation and fine-grained control of Bamboo agents on a node, including agent capabilities and properties in wrapper.conf",
   "license": "Apache License, Version 2.0",
   "name": "cintiadr-bamboo_agent",
-  "operatingsystem_support": [],
+  "operatingsystem_support": [
+
+  ],
   "project_page": "https://github.com/cintiadr/puppet-bamboo_agent",
-  "requirements": [],
+  "requirements": [
+
+  ],
   "source": "git://github.com/cintiadr/puppet-bamboo_agent.git",
   "summary": "Advanced management of Atlassian Bamboo agents",
-  "tags": [],
-  "version": "0.0.9"
+  "tags": [
+
+  ],
+  "version": "0.0.10"
 }
