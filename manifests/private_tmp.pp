@@ -14,7 +14,7 @@ define bamboo_agent::private_tmp(
   }
   
 	$package_name = $osfamily ? {
-	    'ubuntu' => 'tmpreaper',
+	    'debian' => 'tmpreaper',
 	    default  => 'tmpwatch',
 	}
   

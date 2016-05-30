@@ -13,7 +13,7 @@ describe 'bamboo_agent::private_tmp' do
   
   let(:facts) do
   {
-      :osfamily => 'ubuntu', 
+      :osfamily => 'debian', 
   }
   end 
 
