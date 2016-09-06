@@ -11,8 +11,7 @@ define bamboo_agent::install(
   $register_url = shellquote("${bamboo_agent::final_server_url}/agentServer/")
   $quoted_home  = shellquote($home)
 
-  $install_command = "${java} -Dbamboo.home=${quoted_home}\
-  -jar ${jar} ${register_url} install"
+  $install_command = "${java} -Dbamboo.home=${quoted_home} -jar ${jar} ${register_url} install"
 
   exec { "install-agent-${id}":
     path      => ['/bin','/usr/bin','/usr/local/bin'],

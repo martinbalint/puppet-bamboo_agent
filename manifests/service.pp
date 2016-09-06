@@ -11,16 +11,34 @@ define bamboo_agent::service(
   $service = "bamboo-agent${id}"
   $script  = "${home}/bin/bamboo-agent.sh"
 
-  file { "/etc/init.d/${service}":
-    ensure  => file,
-    owner   => 'root',
-    group   => 'root',
-    mode    => '0755',
-    content => template('bamboo_agent/init-script.erb'),
+  if $::osfamily == 'RedHat' and $::operatingsystemmajrelease == '7' {
+    file { "/usr/lib/systemd/system/${service}.service":
+      ensure  => file,
+      alias   => "${service} init file",
+      owner   => 'root',
+      group   => 'root',
+      mode    => '0644',
+      content => template('bamboo_agent/systemd-script.erb'),
+    }
+  } else {
+    file { "/etc/init.d/${service}":
+      ensure  => file,
+      alias   => "${service} init file",
+      owner   => 'root',
+      group   => 'root',
+      mode    => '0755',
+      content => template('bamboo_agent/init-script.erb'),
+    }
+    ->
+    exec { "reload-systemd-after-${service}-change":
+      command     => 'systemctl daemon-reload',
+      refreshonly => true
+    }
   }
-  ->
+
   service { $service:
-    ensure    => running,
-    enable    => true,
+    ensure  => running,
+    enable  => true,
+    require => File["${service} init file"]
   }
 }

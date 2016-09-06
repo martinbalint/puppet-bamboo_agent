@@ -1,0 +1,13 @@
+[Unit]
+Description=Atlassian Bamboo Agent <%= @agent_id %>
+After=syslog.target network.target
+
+[Service]
+Type=forking
+User=<%= @user %>
+Group=<%= @user %>
+ExecStart=<%= @script %> start
+ExecStop=<%= @script %> stop
+
+[Install]
+WantedBy=multi-user.target
